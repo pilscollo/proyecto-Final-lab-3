@@ -75,11 +75,7 @@ public class Fichero {
         boolean rta= us.agregarUsuario(nombre,apellido,password,listado);
         return rta;
     }
-    public boolean agregarUsuario(String nombre, String apellido, Administrador us)
-    {
-        boolean rta= us.agregarUsuario(nombre,apellido,listado);
-        return rta;
-    }
+
     // buscar usuario
     public boolean existe(int id)
     {

@@ -2,7 +2,9 @@ package app.Usuarios;
 
 import app.Contenedores.ContenedorEmpleados;
 
-public class Administrador extends Empleado {
+import java.io.Serializable;
+
+public class Administrador extends Empleado implements Serializable {
 
     private String log;
 
@@ -78,11 +80,7 @@ public class Administrador extends Empleado {
         boolean rta= contenedor.agregar(new Cajero(nombre,apellido,password),getLog());
         return rta;
     }
-    public boolean agregarUsuario(String nombre, String apellido, ContenedorEmpleados contenedor)
-    {
-        boolean rta= contenedor.agregar(new Repositor(nombre,apellido),getLog());
-        return rta;
-    }
+
     public StringBuilder listar(ContenedorEmpleados contenedor)
     {
         return  contenedor.listar(getLog());

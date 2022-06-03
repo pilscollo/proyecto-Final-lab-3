@@ -1,8 +1,9 @@
 package app.Usuarios;
 
 
+import java.io.Serializable;
 
-public  abstract class Empleado {
+public  abstract class Empleado implements Serializable {
     private int id;
     private static int cant;
     private String nombre;

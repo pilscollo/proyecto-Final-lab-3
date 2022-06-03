@@ -7,14 +7,17 @@ import app.Excepciones.ExcepcionPassword;
 import app.Usuarios.Administrador;
 import app.Usuarios.Cajero;
 import app.Usuarios.Empleado;
-import app.Usuarios.Repositor;
 
+import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
     static Scanner  sc;
     public static void main(String[] args) {
 
+        Stock<Alimento> prueba= new Stock<>(10);
+        prueba.agregar(new Alimento("pollo",123,100,10,"medida 1",1,new Date(2022,06,3)));
+        System.out.println(prueba.mostrar());
         ContenedorEmpleados usuarios = new ContenedorEmpleados(10);
         usuarios.agregarLog("1234");
         usuarios.agregar(new Administrador("maria", "perez", "1234", "1234"), "1234");
@@ -26,6 +29,7 @@ public class Main {
         Empleado empleadoLogueado = null;
 
         fichero.agregarUsuario("manuel","josefo","1234",admin2);
+
 
 
         int op2= -1;
@@ -69,7 +73,7 @@ public class Main {
                         if (empleadoLogueado instanceof Administrador) {
                             Administrador admin = (Administrador) empleadoLogueado;
                             boolean rta1 = false;
-                            System.out.println("\n0.salir\n1. dar de baja con id\n2.dar de baja con nombre y apellido\n3.dar de alta con id\n4.dar de alta con nombre y apellido\n5.agregar administrador\n6.agregar Cajero\n7.agregar Repositor\n8.listar");
+                            System.out.println("\n0.salir\n1. dar de baja con id\n2.dar de baja con nombre y apellido\n3.dar de alta con id\n4.dar de alta con nombre y apellido\n5.agregar administrador\n6.agregar Cajero\n7.listar");
                             System.out.println("ingrese opción: ");
                             op = sc.nextInt();
                             switch (op) {
@@ -156,34 +160,18 @@ public class Main {
                                     }
                                     break;
                                 case 7:
-                                    System.out.println("nombre: ");
-                                    nombre = sc.next();
-                                    System.out.println("apellido: ");
-                                    apellido = sc.next();
-
-                                    rta1 = fichero.agregarUsuario(nombre, apellido, admin);
-                                    if (rta1) {
-                                        System.out.println("usuario agregado con exito");
-                                    }
-                                    break;
+                                    System.out.println(fichero.listar(admin));
                                 default:
                                     System.out.println("opcion invalida: ");
                                     break;
-                                case 8:
-                                    System.out.println(fichero.listar(admin));
-                                    break;
+
                             }
 
                         } else if (empleadoLogueado instanceof Cajero) {
 
                             System.out.println("soy cajero");
                             op=0;
-                        } else if (empleadoLogueado instanceof Repositor){
-
-                            System.out.println("soy repositor");
-                            op=0;
                         }
-
                     }
                 }
 
