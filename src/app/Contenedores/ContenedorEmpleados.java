@@ -17,6 +17,11 @@ public class ContenedorEmpleados {
         this.cant = cant;
         this.listaDeLog = new ArrayList<>();
     }
+    public ContenedorEmpleados(int cant, HashMap<Integer,Empleado>listado,ArrayList<String> listaDeLog) {
+        this.listado = listado;
+        this.cant = cant;
+        this.listaDeLog = listaDeLog;
+    }
     /// confirmarLog
     public boolean confirmarLog(String log) {
         boolean rta= false;
@@ -158,6 +163,17 @@ public class ContenedorEmpleados {
     public void agregarLog(String log)
     {
         listaDeLog.add(log);
+    }
+    public  ArrayList<Empleado> pasarAlistado()
+    {
+        Iterator it= listado.entrySet().iterator();
+        ArrayList<Empleado> result= new ArrayList<Empleado>();
+        while(it.hasNext())
+        {
+            Map.Entry<String,Empleado> en= (Map.Entry<String, Empleado>) it.next();
+            result.add(en.getValue());
+        }
+        return result;
     }
 
 

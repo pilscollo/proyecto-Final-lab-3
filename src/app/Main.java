@@ -1,13 +1,16 @@
 package app;
 
+import app.Archivos.ManejoDeArchivos;
 import app.Contenedores.ContenedorEmpleados;
 
+import app.Excepciones.ExcepcionEstado;
 import app.Excepciones.ExcepcionNombreUsuario;
 import app.Excepciones.ExcepcionPassword;
 import app.Usuarios.Administrador;
 import app.Usuarios.Cajero;
 import app.Usuarios.Empleado;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -15,20 +18,16 @@ public class Main {
     static Scanner  sc;
     public static void main(String[] args) {
 
-        Stock<Alimento> prueba= new Stock<>(10);
-        prueba.agregar(new Alimento("pollo",123,100,10,"medida 1",1,new Date(2022,06,3)));
-        System.out.println(prueba.mostrar());
-        ContenedorEmpleados usuarios = new ContenedorEmpleados(10);
-        usuarios.agregarLog("1234");
-        usuarios.agregar(new Administrador("maria", "perez", "1234", "1234"), "1234");
-        Administrador admin2 = new Administrador("maria", "perez", "1234", "1234");
-        sc = new Scanner(System.in);
+        sc= new Scanner(System.in);
 
-
+        ManejoDeArchivos archivo= new ManejoDeArchivos("archivoEmpleados.bin");
+        ArrayList<Empleado> lista= new ArrayList<Empleado>();
+        ContenedorEmpleados usuarios =archivo.leer();
         Fichero fichero = new Fichero(usuarios);
         Empleado empleadoLogueado = null;
 
-        fichero.agregarUsuario("manuel","josefo","1234",admin2);
+
+
 
 
 
@@ -48,19 +47,23 @@ public class Main {
                     String apellido = sc.next();
                     System.out.println("password: ");
                     String password = sc.next();
-                    op2=2;
+
 
                     empleadoLogueado = fichero.ingresoUsuario(nombre, apellido, password);
                     System.out.println();
                 } catch (ExcepcionPassword e ) {
                     System.out.println(e);
-                    op2=1;
+                    empleadoLogueado=null;
 
                 }catch (ExcepcionNombreUsuario e)
                 {
                     System.out.println(e);
-                    op2=1;
+                    empleadoLogueado=null;
 
+                }catch (ExcepcionEstado e)
+                {
+                    System.out.println(e);
+                    empleadoLogueado=null;
                 }
 
 
@@ -76,8 +79,10 @@ public class Main {
                             System.out.println("\n0.salir\n1. dar de baja con id\n2.dar de baja con nombre y apellido\n3.dar de alta con id\n4.dar de alta con nombre y apellido\n5.agregar administrador\n6.agregar Cajero\n7.listar");
                             System.out.println("ingrese opción: ");
                             op = sc.nextInt();
+
                             switch (op) {
                                 case 0:
+                                    archivo.escribirArchivo(fichero.pasarALista());
                                     break;
                                 case 1:
                                     System.out.println("id usuario: ");

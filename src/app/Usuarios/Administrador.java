@@ -8,8 +8,8 @@ public class Administrador extends Empleado implements Serializable {
 
     private String log;
 
-    public Administrador(String nombre, String apellido, String password,String log) {
-        super(nombre, apellido, password);
+    public Administrador(int id,String nombre, String apellido, String password,String log) {
+        super(id,nombre, apellido, password);
         this.log = log;
     }
 
@@ -68,7 +68,8 @@ public class Administrador extends Empleado implements Serializable {
     // agregar Usuario
     public boolean agregarUsuario(String nombre, String apellido, String password,String log, ContenedorEmpleados contenedor)
     {
-        boolean rta= contenedor.agregar(new Administrador(nombre,apellido,password,log),getLog());
+        boolean rta= contenedor.agregar(new Administrador(contenedor.contar(),nombre,apellido,password,log),getLog());
+
         if(rta== true)
         {
             contenedor.agregarLog(log);
@@ -77,7 +78,7 @@ public class Administrador extends Empleado implements Serializable {
     }
     public boolean agregarUsuario(String nombre, String apellido, String password, ContenedorEmpleados contenedor)
     {
-        boolean rta= contenedor.agregar(new Cajero(nombre,apellido,password),getLog());
+        boolean rta= contenedor.agregar(new Cajero(contenedor.contar(),nombre,apellido,password),getLog());
         return rta;
     }
 

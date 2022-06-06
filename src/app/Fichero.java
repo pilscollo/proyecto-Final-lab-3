@@ -1,11 +1,14 @@
 package app;
 
 import app.Contenedores.ContenedorEmpleados;
+import app.Excepciones.ExcepcionEstado;
 import app.Excepciones.ExcepcionNombreUsuario;
 import app.Excepciones.ExcepcionPassword;
 import app.Usuarios.Administrador;
 import app.Usuarios.Cajero;
 import app.Usuarios.Empleado;
+
+import java.util.ArrayList;
 
 public class Fichero {
 
@@ -19,7 +22,7 @@ public class Fichero {
         this.listado = usuarios;
     }
     ///ingreso de usuario
-    public Empleado ingresoUsuario(String nombre, String apellido, String password) throws ExcepcionPassword,ExcepcionNombreUsuario
+    public Empleado ingresoUsuario(String nombre, String apellido, String password) throws ExcepcionPassword,ExcepcionNombreUsuario, ExcepcionEstado
     {
         Empleado buscado= listado.buscar(nombre,apellido);
         Empleado rta= null;
@@ -38,6 +41,11 @@ public class Fichero {
             throw new ExcepcionNombreUsuario();
         }
 
+        if(!rta.isEstado())
+        {
+            throw new ExcepcionEstado();
+
+        }
         return rta;
     }
 
@@ -88,5 +96,9 @@ public class Fichero {
     }
 
     /// agregar ingreso y egreso de usuario
+    public ArrayList<Empleado> pasarALista()
+    {
+        return listado.pasarAlistado();
+    }
 
 }

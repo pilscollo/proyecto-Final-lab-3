@@ -3,8 +3,8 @@ package app.Usuarios;
 import java.io.Serializable;
 
 public class Cajero extends Empleado implements Serializable {
-    public Cajero( String nombre, String apellido, String password) {
-        super( nombre, apellido, password);
+    public Cajero(int id, String nombre, String apellido, String password) {
+        super( id,nombre, apellido, password);
     }
 
     // abrir caja
