@@ -1,5 +1,6 @@
 package app;
 
+import app.Archivos.ManejoDeArchivos;
 import app.Contenedores.ContenedorEmpleados;
 import app.Excepciones.ExcepcionEstado;
 import app.Excepciones.ExcepcionNombreUsuario;
@@ -18,8 +19,14 @@ public class Fichero {
         this.listado = new ContenedorEmpleados(cant);
     }
 
-    public Fichero(ContenedorEmpleados usuarios) {
-        this.listado = usuarios;
+    public Fichero() {
+        ManejoDeArchivos archivoEmpleados= new ManejoDeArchivos("archivoEmpleados.bin");
+        this.listado = archivoEmpleados.leer();
+    }
+    public void abrirCaja(String nombre)
+    {
+        //ManejoDeArchivos archivoStock = new ManejoDeArchivos(nombre);
+        //this.stock= archivoStock.leerP();
     }
     ///ingreso de usuario
     public Empleado ingresoUsuario(String nombre, String apellido, String password) throws ExcepcionPassword,ExcepcionNombreUsuario, ExcepcionEstado

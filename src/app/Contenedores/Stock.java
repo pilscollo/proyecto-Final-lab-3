@@ -1,4 +1,7 @@
-package app;
+package app.Contenedores;
+
+import app.Interfaces.IColeccion;
+import app.Producto;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -6,7 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 
-public class Stock<T extends Producto> {
+public class Stock<T extends Producto> implements IColeccion {
 
     private HashMap <Integer ,T> stock;
     private int capacidad;
@@ -15,6 +18,11 @@ public class Stock<T extends Producto> {
     public Stock(int capacidad) {
         stock = new HashMap<>();
         this.capacidad = capacidad;
+        ocupado = 0;
+    }
+    public Stock( HashMap stock) {
+        this.stock= stock;
+        this.capacidad = 100;
         ocupado = 0;
     }
 
@@ -89,6 +97,18 @@ public class Stock<T extends Producto> {
 
     public int espacioDisponible() {
         return capacidad-ocupado;
+    }
+
+    public boolean vacio()
+    {
+        boolean rta= false;
+
+        if(ocupado==0)
+        {
+            rta= true;
+        }
+
+        return rta;
     }
 
 }

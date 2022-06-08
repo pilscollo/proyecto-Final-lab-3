@@ -1,13 +1,14 @@
 package app.Archivos;
 
 import app.Contenedores.ContenedorEmpleados;
+import app.Producto;
+import app.Contenedores.Stock;
 import app.Usuarios.Administrador;
 import app.Usuarios.Empleado;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class ManejoDeArchivos {
     private String nombre;
@@ -27,6 +28,25 @@ public class ManejoDeArchivos {
             for (Empleado empleado : listado)
             {
                 objectOut.writeObject(empleado);
+            }
+            objectOut.close();
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+    public void escribirArchivoP(ArrayList<Producto>listado) {
+
+        try {
+
+            FileOutputStream stream = new FileOutputStream(nombre);
+            ObjectOutputStream objectOut = new ObjectOutputStream(stream);
+
+            for (Producto producto : listado)
+            {
+                objectOut.writeObject(producto);
             }
             objectOut.close();
 
@@ -93,6 +113,41 @@ public class ManejoDeArchivos {
             ex.printStackTrace();
         }
         ContenedorEmpleados contenedor= new ContenedorEmpleados(100,listado,listadoLog);
+
+        return  contenedor;
+    }
+    public Stock<Producto> leerP()
+    {
+
+        HashMap<Integer,Producto> listado= new HashMap<>();
+
+        try {
+
+            FileInputStream stream = new FileInputStream(nombre);
+            ObjectInputStream objectInput = new ObjectInputStream(stream);
+
+            int i=1;
+            while(i==1)
+            {
+                Producto aux =(Producto) objectInput.readObject();
+
+                listado.put(aux.getCodigo(),aux);
+            }
+
+            objectInput.close();
+
+        }
+        catch (EOFException e)
+        {
+
+        }
+        catch (FileNotFoundException e)
+        {
+
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        Stock<Producto> contenedor= new Stock<>(listado);
 
         return  contenedor;
     }

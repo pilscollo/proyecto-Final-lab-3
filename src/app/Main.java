@@ -20,16 +20,11 @@ public class Main {
 
         sc= new Scanner(System.in);
 
-        ManejoDeArchivos archivo= new ManejoDeArchivos("archivoEmpleados.bin");
-        ArrayList<Empleado> lista= new ArrayList<Empleado>();
-        ContenedorEmpleados usuarios =archivo.leer();
-        Fichero fichero = new Fichero(usuarios);
+        ManejoDeArchivos archivoEmpleados= new ManejoDeArchivos("archivoEmpleados.bin");
+
+        ContenedorEmpleados usuarios =archivoEmpleados.leer();
+        Fichero fichero = new Fichero();
         Empleado empleadoLogueado = null;
-
-
-
-
-
 
         int op2= -1;
         int op=0;
@@ -82,7 +77,7 @@ public class Main {
 
                             switch (op) {
                                 case 0:
-                                    archivo.escribirArchivo(fichero.pasarALista());
+                                    archivoEmpleados.escribirArchivo(fichero.pasarALista());
                                     break;
                                 case 1:
                                     System.out.println("id usuario: ");
@@ -166,6 +161,7 @@ public class Main {
                                     break;
                                 case 7:
                                     System.out.println(fichero.listar(admin));
+                                    break;
                                 default:
                                     System.out.println("opcion invalida: ");
                                     break;

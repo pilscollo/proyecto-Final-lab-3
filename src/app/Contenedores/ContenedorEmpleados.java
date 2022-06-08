@@ -1,5 +1,6 @@
 package app.Contenedores;
 
+import app.Interfaces.IColeccion;
 import app.Usuarios.Empleado;
 
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ContenedorEmpleados {
+public class ContenedorEmpleados implements IColeccion {
     private HashMap<Integer, Empleado> listado;
     private  int cant;
     private ArrayList<String> listaDeLog;
@@ -176,6 +177,10 @@ public class ContenedorEmpleados {
         return result;
     }
 
+    public  int espacioDisponible()
+    {
+        return cant-contar();
+    }
 
 
 }
