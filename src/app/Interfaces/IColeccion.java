@@ -2,7 +2,7 @@ package app.Interfaces;
 
 import app.Usuarios.Empleado;
 
-public interface IColeccion {
+public interface IColeccion{
     int espacioDisponible();
     boolean vacio();
 }

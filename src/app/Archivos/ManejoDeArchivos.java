@@ -1,7 +1,7 @@
 package app.Archivos;
 
 import app.Contenedores.ContenedorEmpleados;
-import app.Producto;
+import app.GestionDeCaja.Producto;
 import app.Contenedores.Stock;
 import app.Usuarios.Administrador;
 import app.Usuarios.Empleado;
@@ -116,10 +116,11 @@ public class ManejoDeArchivos {
 
         return  contenedor;
     }
-    public Stock<Producto> leerP()
+    public ArrayList<Producto> leerP()
     {
+        int ocupado =0;
 
-        HashMap<Integer,Producto> listado= new HashMap<>();
+        ArrayList<Producto> listado = new ArrayList<>();
 
         try {
 
@@ -131,7 +132,8 @@ public class ManejoDeArchivos {
             {
                 Producto aux =(Producto) objectInput.readObject();
 
-                listado.put(aux.getCodigo(),aux);
+                listado.add(aux);
+                ocupado +=1;
             }
 
             objectInput.close();
@@ -147,8 +149,8 @@ public class ManejoDeArchivos {
         } catch(Exception ex) {
             ex.printStackTrace();
         }
-        Stock<Producto> contenedor= new Stock<>(listado);
 
-        return  contenedor;
+
+        return  listado;
     }
 }

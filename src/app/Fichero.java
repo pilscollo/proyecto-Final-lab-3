@@ -23,11 +23,7 @@ public class Fichero {
         ManejoDeArchivos archivoEmpleados= new ManejoDeArchivos("archivoEmpleados.bin");
         this.listado = archivoEmpleados.leer();
     }
-    public void abrirCaja(String nombre)
-    {
-        //ManejoDeArchivos archivoStock = new ManejoDeArchivos(nombre);
-        //this.stock= archivoStock.leerP();
-    }
+
     ///ingreso de usuario
     public Empleado ingresoUsuario(String nombre, String apellido, String password) throws ExcepcionPassword,ExcepcionNombreUsuario, ExcepcionEstado
     {
@@ -108,4 +104,11 @@ public class Fichero {
         return listado.pasarAlistado();
     }
 
+
+    public void cerrarFichero(String nombre)
+    {
+        ManejoDeArchivos archivoEmpleados= new ManejoDeArchivos(nombre);
+        archivoEmpleados.escribirArchivo(pasarALista());
+
+    }
 }

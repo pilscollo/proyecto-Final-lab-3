@@ -165,6 +165,7 @@ public class ContenedorEmpleados implements IColeccion {
     {
         listaDeLog.add(log);
     }
+
     public  ArrayList<Empleado> pasarAlistado()
     {
         Iterator it= listado.entrySet().iterator();
