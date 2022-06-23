@@ -1,40 +1,39 @@
 package app;
 
 
+import app.Archivos.ManejoDeArchivos;
 import app.Contenedores.Stock;
 import app.GestionDeCaja.Producto;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
 
 public class App {
-    private Stock<Producto> stock1;
-    private Stock<Producto> stock2;
-    private Stock<Producto> stock3;
+    private Stock<Producto> heladeraStock;
+    private Stock<Producto> carnesStock;
+    private Stock<Producto> limpiezaStock;
     private double recaudacion;
     private ArrayList<Ticket> tickets;
 
     public App()  {
-        stock1 = new Stock<>(100);
-        stock2 = new Stock<>(100);
-        stock3 = new Stock<>(100);
-        Producto producto = new Producto("leche",232,231,2,"litro",2,"heladera",new Date(1,1,1));
-        Producto producto2 = new Producto("carne picada",231,31,4,"kilo",2,"carnes",new Date(4,4,5));
-        Producto producto3= new Producto("lavandina",233,21,3,"litro",2,"limpieza",new Date(3,2,2));
-        agregarForzado(producto);
-        agregarForzado(producto2);
-        agregarForzado(producto3);
-        recaudacion = 0;
+
         tickets = new ArrayList<>();
+        heladeraStock = new Stock<Producto>(100);
+        carnesStock = new Stock<Producto>(100);
+        limpiezaStock = new Stock<Producto>(100);
     }
 
 
     public void agregarForzado(Producto producto)
     {
         switch (producto.getSeccion()) {
-            case "heladera" -> stock1.agregar(producto);
-            case "carnes" -> stock2.agregar(producto);
-            case "limpieza" -> stock3.agregar(producto);
+            case "heladera" -> heladeraStock.agregar(producto);
+            case "carnes" -> carnesStock.agregar(producto);
+            case "limpieza" -> limpiezaStock.agregar(producto);
         }
     }
 
@@ -56,37 +55,37 @@ public class App {
     public Producto devolverProducto(int codigo)
     {
         Producto producto;
-        if(stock1.buscar(codigo)!=null) {
-            producto=stock1.buscar(codigo);
+        if(heladeraStock.buscar(codigo)!=null) {
+            producto= heladeraStock.buscar(codigo);
             return producto;
-        }else if(stock2.buscar(codigo)!=null){
-            producto=stock2.buscar(codigo);
+        }else if(carnesStock.buscar(codigo)!=null){
+            producto= carnesStock.buscar(codigo);
             return producto;
-        }else if(stock3.buscar(codigo)!=null){
-            producto=stock3.buscar(codigo);
+        }else if(limpiezaStock.buscar(codigo)!=null){
+            producto= limpiezaStock.buscar(codigo);
             return producto;
         }else return null;
     }
 
     public String mostrarHeladera()
     {
-        return stock1.mostrar();
+        return heladeraStock.mostrar();
     }
     public String mostrarCarne()
     {
-        return stock2.mostrar();
+        return carnesStock.mostrar();
     }
     public String mostrarLegumbres()
     {
-        return stock3.mostrar();
+        return limpiezaStock.mostrar();
     }
 
     public String mostrar()
     {
-        return "heladera :\n"+ stock1.mostrar() + "\n"+"carnes :\n"+stock2.mostrar()+"\nlimpieza :\n"+stock3.mostrar();
+        return "heladera :\n"+ heladeraStock.mostrar() + "\n"+"carnes :\n"+ carnesStock.mostrar()+"\nlimpieza :\n"+ limpiezaStock.mostrar();
     }
 
-    public String agregar(String nombre,Integer codigo, double precio, int stock, String unidadMedida, double cantidadMedida,String seccion,Date fechaVencimiento)
+    public String agregar(String nombre,Integer codigo, double precio, int stock, String unidadMedida, double cantidadMedida,String seccion,String fechaVencimiento)
     {
         Producto producto= new Producto(nombre,codigo,precio,stock,unidadMedida,cantidadMedida,seccion,fechaVencimiento);
         String agregadoCorrecto = "producto agregado";
@@ -94,15 +93,15 @@ public class App {
 
         switch (seccion) {
             case "heladera" -> {
-                stock1.agregar(producto);
+                heladeraStock.agregar(producto);
                 resultado = agregadoCorrecto;
             }
             case "carnes" -> {
-                stock2.agregar(producto);
+                carnesStock.agregar(producto);
                 resultado = agregadoCorrecto;
             }
             case "limpieza" -> {
-                stock3.agregar(producto);
+                limpiezaStock.agregar(producto);
                 resultado = agregadoCorrecto;
             }
         }
@@ -115,50 +114,46 @@ public class App {
         String retorno = "se quito el producto";
         String resultado = "error en quitar el producto";
 
-        if (stock1.quitar(producto))
+        if (heladeraStock.quitar(producto))
         {
             resultado= retorno;
-        }else if(stock2.quitar(producto)){
+        }else if(carnesStock.quitar(producto)){
             resultado= retorno;
         }
-        else if(stock3.quitar(producto)){
+        else if(limpiezaStock.quitar(producto)){
             resultado= retorno;
         }
         return resultado;
     }
 
-    public void abrirCaja(String nombre)
-    {
-        //ManejoDeArchivos archivoStock = new ManejoDeArchivos(nombre);
-        //this.stock= archivoStock.leerP();
-    }
 
-    public boolean modificarProducto(int codigo, String nombreM, int codigoM, double precioM, int stockM, String unidadDeMedidaM, double cantidadDeMedidaM, Date fechaNuevo)
+
+    public boolean modificarProducto(int codigo, String nombreM, int codigoM, double precioM, int stockM, String unidadDeMedidaM, double cantidadDeMedidaM, String fechaNuevo)
     {
         boolean on = false;
-        if(stock1.buscar(codigo)!=null) {
-            stock1.modificarNombreProducto(codigo,nombreM);
-            stock1.modificarCodigoProducto(codigo,codigoM);
-            stock1.modificarPrecioProducto(codigo,precioM);
-            stock1.modificarStockProducto(codigo,stockM);
-            stock1.modificarMedidaProducto(codigo,unidadDeMedidaM,cantidadDeMedidaM);
-            stock1.modificarVencimientoAlimento(codigo,fechaNuevo);
+        if(heladeraStock.buscar(codigo)!=null) {
+            heladeraStock.modificarNombreProducto(codigo,nombreM);
+            heladeraStock.modificarCodigoProducto(codigo,codigoM);
+            heladeraStock.modificarPrecioProducto(codigo,precioM);
+            heladeraStock.modificarStockProducto(codigo,stockM);
+            heladeraStock.modificarMedidaProducto(codigo,unidadDeMedidaM,cantidadDeMedidaM);
+            heladeraStock.modificarVencimientoAlimento(codigo,fechaNuevo);
             on = true;
-        }else if(stock2.buscar(codigo)!=null){
-            stock2.modificarNombreProducto(codigo,nombreM);
-            stock2.modificarCodigoProducto(codigo,codigoM);
-            stock2.modificarPrecioProducto(codigo,precioM);
-            stock2.modificarStockProducto(codigo,stockM);
-            stock2.modificarMedidaProducto(codigo,unidadDeMedidaM,cantidadDeMedidaM);
-            stock2.modificarVencimientoAlimento(codigo,fechaNuevo);
+        }else if(carnesStock.buscar(codigo)!=null){
+            carnesStock.modificarNombreProducto(codigo,nombreM);
+            carnesStock.modificarCodigoProducto(codigo,codigoM);
+            carnesStock.modificarPrecioProducto(codigo,precioM);
+            carnesStock.modificarStockProducto(codigo,stockM);
+            carnesStock.modificarMedidaProducto(codigo,unidadDeMedidaM,cantidadDeMedidaM);
+            carnesStock.modificarVencimientoAlimento(codigo,fechaNuevo);
             on = true;
-        }else if(stock3.buscar(codigo)!=null){
-            stock3.modificarNombreProducto(codigo,nombreM);
-            stock3.modificarCodigoProducto(codigo,codigoM);
-            stock3.modificarPrecioProducto(codigo,precioM);
-            stock3.modificarStockProducto(codigo,stockM);
-            stock3.modificarMedidaProducto(codigo,unidadDeMedidaM,cantidadDeMedidaM);
-            stock3.modificarVencimientoAlimento(codigo,fechaNuevo);
+        }else if(limpiezaStock.buscar(codigo)!=null){
+            limpiezaStock.modificarNombreProducto(codigo,nombreM);
+            limpiezaStock.modificarCodigoProducto(codigo,codigoM);
+            limpiezaStock.modificarPrecioProducto(codigo,precioM);
+            limpiezaStock.modificarStockProducto(codigo,stockM);
+            limpiezaStock.modificarMedidaProducto(codigo,unidadDeMedidaM,cantidadDeMedidaM);
+            limpiezaStock.modificarVencimientoAlimento(codigo,fechaNuevo);
             on = true;
         }
         return on;
@@ -167,14 +162,14 @@ public class App {
     public boolean agregarStock(int codigo,int cantidad)
     {
         boolean on = false;
-        if(stock1.buscar(codigo)!=null) {
-            stock1.agregarStockProducto(codigo,cantidad);
+        if(heladeraStock.buscar(codigo)!=null) {
+            heladeraStock.agregarStockProducto(codigo,cantidad);
             on = true;
-        }else if(stock2.buscar(codigo)!=null){
-            stock2.agregarStockProducto(codigo,cantidad);
+        }else if(carnesStock.buscar(codigo)!=null){
+            carnesStock.agregarStockProducto(codigo,cantidad);
             on = true;
-        }else if(stock3.buscar(codigo)!=null){
-            stock3.agregarStockProducto(codigo,cantidad);
+        }else if(limpiezaStock.buscar(codigo)!=null){
+            limpiezaStock.agregarStockProducto(codigo,cantidad);
             on = true;
         }
         return on;
@@ -183,14 +178,14 @@ public class App {
     public boolean quitarStock(int codigo,int cantidad)
     {
         boolean on = false;
-        if(stock1.buscar(codigo)!=null) {
-            stock2.quitarStockProducto(codigo,cantidad);
+        if(heladeraStock.buscar(codigo)!=null) {
+            carnesStock.quitarStockProducto(codigo,cantidad);
             on = true;
-        }else if(stock2.buscar(codigo)!=null){
-            stock2.quitarStockProducto(codigo,cantidad);
+        }else if(carnesStock.buscar(codigo)!=null){
+            carnesStock.quitarStockProducto(codigo,cantidad);
             on = true;
-        }else if(stock3.buscar(codigo)!=null){
-            stock3.quitarStockProducto(codigo,cantidad);
+        }else if(limpiezaStock.buscar(codigo)!=null){
+            limpiezaStock.quitarStockProducto(codigo,cantidad);
             on = true;
         }
         return on;
@@ -199,5 +194,70 @@ public class App {
     public double getRecaudacion() {
         return recaudacion;
     }
+    public void pasarStock()
+    {
+        ManejoDeArchivos arch = new ManejoDeArchivos("stock.bin");
+
+        ArrayList<Producto> productos = arch.leerP();
+
+        for(Producto p: productos)
+        {
+            if(p.getSeccion().equals("heladera"))
+            {
+               heladeraStock.agregar(p) ;
+            }else if(p.getSeccion().equals("carnes"))
+            {
+                carnesStock.agregar(p) ;
+            }else if(p.getSeccion().equals("limpieza"))
+            {
+                limpiezaStock.agregar(p) ;
+            }
+        }
+    }
+
+    public ArrayList<Producto> listarStock()
+    {
+        ArrayList<Producto> productos = new ArrayList<>();
+
+        Iterator heladera = heladeraStock.iterator();
+
+        while (heladera.hasNext())
+        {
+            Map.Entry<Integer,Producto> en = (Map.Entry<Integer, Producto>) heladera.next();
+            productos.add(en.getValue());
+        }
+
+        Iterator carnes= carnesStock.iterator();
+
+        while (carnes.hasNext())
+        {
+            Map.Entry<Integer,Producto> en = (Map.Entry<Integer, Producto>) carnes.next();
+            productos.add(en.getValue());
+        }
+
+        Iterator limpieza = limpiezaStock.iterator();
+
+        while (limpieza.hasNext())
+        {
+            Map.Entry<Integer,Producto> en = (Map.Entry<Integer, Producto>) limpieza.next();
+            productos.add(en.getValue());
+        }
+        return productos;
+    }
+
+    public void cerrarCaja()
+    {
+        ManejoDeArchivos archivoStock = new ManejoDeArchivos("stock.bin");
+        archivoStock.escribirArchivoP(listarStock());
+        archivoStock.escribirRecaudacion(getRecaudacion());
+    }
+    public void abrirCaja()
+    {
+        ManejoDeArchivos archivoStock = new ManejoDeArchivos("stock.bin");
+        pasarStock();
+        recaudacion = archivoStock.sacarRecaudacion();
+    }
+
+
 
 }

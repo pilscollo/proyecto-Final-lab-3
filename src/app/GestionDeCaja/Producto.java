@@ -3,9 +3,10 @@ package app.GestionDeCaja;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Producto {
+public class Producto implements Serializable {
     //ATRIBUTOS
     private String nombre;
     private Integer codigo;
@@ -14,9 +15,9 @@ public class Producto {
     private String unidadDeMedida; // kg, lt, gr, unidades
     private double cantidadDeMedida; // cantidad de la unidad de medida
     private String seccion;
-    private Date fechaDeVencimiento;
+    private String fechaDeVencimiento;
 
-    public Producto(String nombre, Integer codigo, double precio, int stock, String unidadDeMedida, double cantidadDeMedida,String seccion,Date fechaDeVencimiento) {
+    public Producto(String nombre, Integer codigo, double precio, int stock, String unidadDeMedida, double cantidadDeMedida,String seccion,String fechaDeVencimiento) {
         this.nombre = nombre;
         this.codigo = codigo;
         this.precio = precio;
@@ -26,6 +27,7 @@ public class Producto {
         this.seccion=seccion;
         this.fechaDeVencimiento = fechaDeVencimiento;
     }
+
 
     public Integer getCodigo() {
         return codigo;
@@ -85,11 +87,11 @@ public class Producto {
         this.seccion = seccion;
     }
 
-    public Date getFechaDeVencimiento() {
+    public String getFechaDeVencimiento() {
         return fechaDeVencimiento;
     }
 
-    public void setFechaDeVencimiento(Date fechaDeVencimiento) {
+    public void setFechaDeVencimiento(String fechaDeVencimiento) {
         this.fechaDeVencimiento = fechaDeVencimiento;
     }
 
@@ -116,6 +118,26 @@ public class Producto {
             productojson.put("nombre", this.nombre);
             productojson.put("precio", this.precio);
             productojson.put("fecha de vencimiento", this.fechaDeVencimiento);
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return productojson;
+    }
+    public JSONObject productoToJsonCompleto() {
+        JSONObject productojson = new JSONObject();
+
+        try {
+            productojson.put("nombre", this.nombre);
+            productojson.put("codigo",codigo);
+            productojson.put("precio",precio);
+            productojson.put("stock",stock);
+            productojson.put("unidades de medida",unidadDeMedida);
+            productojson.put("cantidad de medida",cantidadDeMedida);
+            productojson.put("seccion",seccion);
+            productojson.put("precio", this.precio);
+            productojson.put("fecha de vencimiento", this.fechaDeVencimiento.toString());
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

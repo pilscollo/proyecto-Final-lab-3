@@ -16,8 +16,13 @@ import java.util.Date;
 import java.util.Scanner;
 
 /**
+ * abrir caja
+ * cerrar caja x
+ * importar historial
+ * exportar historial
  * */
 public class Main {
+
     static Scanner  sc;
     public static void main(String[] args) {
 
@@ -25,9 +30,10 @@ public class Main {
 
 
 
-
         Fichero fichero = new Fichero();
         Empleado empleadoLogueado = null;
+
+        ManejoDeArchivos m = new ManejoDeArchivos("recaudacion.bin");
 
         int op2= -1;
         int op=0;
@@ -175,7 +181,7 @@ public class Main {
 
                             Ticket ticket;
                             App app = new App();
-                            app.abrirCaja("nose.bin");
+                            app.abrirCaja();
                             Scanner scan = new Scanner(System.in);
 
                             boolean boton = true;
@@ -186,8 +192,7 @@ public class Main {
                                 System.out.println("4: eliminar stock");
                                 System.out.println("5: modificar producto");
                                 System.out.println("6: modificar stock");
-                                System.out.println("7: mostrar historial");
-                                System.out.println("8: cerrar caja");
+                                System.out.println("7: cerrar caja");
                                 int op3 = scan.nextInt();
                                 switch (op3) {
                                     case 1 -> {
@@ -257,7 +262,7 @@ public class Main {
                                         int mes = scan.nextInt();
                                         System.out.println("año");
                                         int año = scan.nextInt();
-                                        Date fecha = new Date(año,mes,dia);
+                                        String fecha = dia +"-"+ mes+"-"+año;
                                         String agregado = app.agregar(nombre, codigo, precio, stock, unidadMedida, cantidadMedida, seccion,fecha);
                                         System.out.println(agregado);
                                     }
@@ -292,7 +297,7 @@ public class Main {
                                         int mes = scan.nextInt();
                                         System.out.println("ingrese el nuevo año");
                                         int año = scan.nextInt();
-                                        Date nuevaFecha = new Date(año,mes,dia);
+                                        String nuevaFecha = dia +"-"+ mes+"-"+año;;
                                         if (app.modificarProducto(claveModificar, nombreNuevo, codigoNuevo, precioNuevo, stockNuevo, unidadNueva, cantidadNueva,nuevaFecha)) {
                                             System.out.println(app.devolverProducto(codigoNuevo).toString());
                                         } else System.out.println("error al modificar producto");
@@ -323,12 +328,12 @@ public class Main {
 
                                         }else System.out.println("opcion invalida");
                                     }
-                                    case 7 ->{
-
-                                    }
-                                    case 8 -> {
+                                    case 7 -> {
                                         boton = false;
                                         System.out.println("la recaudacion hasta el momento es de " + app.getRecaudacion());
+                                        app.cerrarCaja();
+                                        op= 0;
+
                                     }
                                     default -> System.out.println("opcion invalida, intente nuevamente");
                                 }

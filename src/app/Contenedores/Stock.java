@@ -172,7 +172,7 @@ public class Stock<T extends Producto> {
         return modificado;
     }
 
-    public boolean modificarVencimientoAlimento(Integer codigo, Date vencimiento) {
+    public boolean modificarVencimientoAlimento(Integer codigo, String vencimiento) {
 
         boolean modificado = false;
 
@@ -229,4 +229,8 @@ public class Stock<T extends Producto> {
         return modificado;
     }
 
+    public Iterator iterator()
+    {
+        return  stock.entrySet().iterator();
+    }
 }

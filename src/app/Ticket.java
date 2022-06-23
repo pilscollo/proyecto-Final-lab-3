@@ -19,9 +19,11 @@ public class Ticket {
         precioFinal = 0;
     }
 
+
     public void generarProducto(Producto producto)
     {
         productos.add(producto);
+        System.out.println(productos.size());
         precioFinal += producto.getPrecio();
     }
 
@@ -43,6 +45,25 @@ public class Ticket {
 
         return ticketJSON;
     }
+    public JSONObject generarTicketParaArreglo()
+    {
+        JSONObject ticketJSON = new JSONObject();
+        JSONArray productosJSON = new JSONArray();
+
+        for (Producto p : productos)
+        {
+            productosJSON.put(p.productoToJsonCompleto());
+        }
+        try {
+            ticketJSON.put("precio final",precioFinal);
+            ticketJSON.put("productos",productosJSON);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return ticketJSON;
+    }
+
 
     @Override
     public String toString() {

@@ -124,8 +124,10 @@ public class ManejoDeArchivos {
 
         try {
 
+
             FileInputStream stream = new FileInputStream(nombre);
             ObjectInputStream objectInput = new ObjectInputStream(stream);
+
 
             int i=1;
             while(i==1)
@@ -152,5 +154,54 @@ public class ManejoDeArchivos {
 
 
         return  listado;
+    }
+
+    public Double sacarRecaudacion()
+    {
+        Double rta = 0.0;
+
+        try {
+
+            FileInputStream stream = new FileInputStream("recaudacion.bin");
+            DataInputStream input = new DataInputStream(stream);
+            rta  = input.readDouble();
+            input.close();
+
+
+        }
+        catch (EOFException e)
+        {
+
+        }
+        catch (FileNotFoundException e)
+        {
+
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+       return rta;
+    }
+
+    public void escribirRecaudacion(double rta)
+    {
+
+        try {
+            FileOutputStream stream = new FileOutputStream("recaudacion.bin");
+            DataOutputStream out = new DataOutputStream(stream);
+            out.writeDouble(rta);
+            out.close();
+
+        }
+        catch (EOFException e)
+        {
+
+        }
+        catch (FileNotFoundException e)
+        {
+
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+
     }
 }
